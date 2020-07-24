@@ -92,30 +92,88 @@ class SortingRobot:
         """
         return self._light == "ON"
 
+    # def merge_in_place(self, arr, start, mid, end):
+    # # Your code here
+    #     start2 = mid
+    #     while start <= mid and start2 <= end:
+    #         if arr[start] <= arr[start2]:
+    #             start += 1
+    #         else:
+    #             index = start2
+    #             value = arr[start2]
+    #             while index is not start:
+    #                 arr[index] = arr[index - 1]
+    #                 index -= 1
+    #             arr[start] = value
+    #             start += 1
+    #             mid += 1
+    #             start2 += 1
+    #     return arr
+    
+    # def merge_sort_in_place(self,arr, l, r):
+    # # Your code here
+    #     if r - l < 1:
+    #         return arr
+    #     else:
+    #         m = (l + r) // 2
+    #         merge_sort_in_place(arr, l, m)
+    #         merge_sort_in_place(arr, m + 1, r)
+    #         return merge_in_place(arr, l, m+1, r)
+
+    def merge_in_place(self, start, mid, end):
+    # Your code here
+        start2 = mid
+        while start <= mid and start2 <= end:
+            if self._list[start] <= self._list[start2]:
+                start += 1
+            else:
+                index = start2
+                value = self._list[start2]
+                while index is not start:
+                    self._list[index] = self._list[index - 1]
+                    index -= 1
+                self._list[start] = value
+                start += 1
+                mid += 1
+                start2 += 1
+        # return self._list
+    
+    def merge_sort_in_place(self, l, r):
+    # Your code here
+        if r - l < 1:
+            return self._list
+        else:
+            m = (l + r) // 2
+            self.merge_sort_in_place(l, m)
+            self.merge_sort_in_place(m + 1, r)
+            return self.merge_in_place(l, m+1, r)
+
     def sort(self):
         """
         Sort the robot's list.
         """
-        self.set_light_on()
-        # use light as swap indicator
-        # while swapping being done
-        while self.light_is_on():
-            self.set_light_off()
-            # start at the beginning
-            self._position = 0
-            self._item = self._list[self._position]
-            while self.can_move_right():
-                # set the next position
-                self.move_right()
-                # compare the item with the element in front
-                if self.compare_item() is 1:
-                    # swap item with the element in position
-                    self.swap_item()
-                    self._list[self._position - 1] = self._item
-                    # turn on swap light
-                    self.set_light_on()
-                # set the new item
-                self._item = self._list[self._position]
+        # self.set_light_on()
+        # # use light as swap indicator
+        # # while swapping being done
+        # while self.light_is_on():
+        #     self.set_light_off()
+        #     # start at the beginning
+        #     self._position = 0
+        #     self._item = self._list[self._position]
+        #     while self.can_move_right():
+        #         # set the next position
+        #         self.move_right()
+        #         # compare the item with the element in front
+        #         if self.compare_item() is 1:
+        #             # swap item with the element in position
+        #             self.swap_item()
+        #             self._list[self._position - 1] = self._item
+        #             # turn on swap light
+        #             self.set_light_on()
+        #         # set the new item
+        #         self._item = self._list[self._position]
+
+        self.merge_sort_in_place(0, len(self._list) - 1)
     
         
 
@@ -124,7 +182,9 @@ if __name__ == "__main__":
     # Test our your implementation from the command line
     # with `python robot_sort.py`
 
-    l = [15, 41, 58, 49, 26, 4, 28, 8, 61, 60, 65, 21, 78, 14, 35, 90, 54, 5, 0, 87, 82, 96, 43, 92, 62, 97, 69, 94, 99, 93, 76, 47, 2, 88, 51, 40, 95, 6, 23, 81, 30, 19, 25, 91, 18, 68, 71, 9, 66, 1, 45, 33, 3, 72, 16, 85, 27, 59, 64, 39, 32, 24, 38, 84, 44, 80, 11, 73, 42, 20, 10, 29, 22, 98, 17, 48, 52, 67, 53, 74, 77, 37, 63, 31, 7, 75, 36, 89, 70, 34, 79, 83, 13, 57, 86, 12, 56, 50, 55, 46]
+    # l = [15, 41, 58, 49, 26, 4, 28, 8, 61, 60, 65, 21, 78, 14, 35, 90, 54, 5, 0, 87, 82, 96, 43, 92, 62, 97, 69, 94, 99, 93, 76, 47, 2, 88, 51, 40, 95, 6, 23, 81, 30, 19, 25, 91, 18, 68, 71, 9, 66, 1, 45, 33, 3, 72, 16, 85, 27, 59, 64, 39, 32, 24, 38, 84, 44, 80, 11, 73, 42, 20, 10, 29, 22, 98, 17, 48, 52, 67, 53, 74, 77, 37, 63, 31, 7, 75, 36, 89, 70, 34, 79, 83, 13, 57, 86, 12, 56, 50, 55, 46]
+
+    l = [15, 41, 58, 49, 26, 4]
 
 
     robot = SortingRobot(l)
